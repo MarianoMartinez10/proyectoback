@@ -6,16 +6,22 @@ exports.protect = async (req, res, next) => {
     try {
         let token;
 
+        // DEBUG: Log para ver qué recibe el backend
+        logger.info(`[AUTH DEBUG] Cookies: ${JSON.stringify(req.cookies)}, Auth Header: ${req.headers.authorization}`);
+
         // 1. Prioridad: Token en Cookie (HttpOnly - Más seguro contra XSS)
         if (req.cookies && req.cookies.token) {
             token = req.cookies.token;
+            logger.info('[AUTH] Token encontrado en COOKIE');
         }
         // 2. Fallback: Header Authorization (Bearer)
         else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             token = req.headers.authorization.split(' ')[1];
+            logger.info('[AUTH] Token encontrado en HEADER Authorization');
         }
 
         if (!token || token === 'none') {
+            logger.warn('[AUTH] Token no encontrado en cookies ni headers');
             return res.status(401).json({
                 success: false,
                 message: 'Sesión expirada o no válida'
