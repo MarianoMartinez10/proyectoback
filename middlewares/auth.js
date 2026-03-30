@@ -45,10 +45,10 @@ exports.protect = async (req, res, next) => {
                 email: true,
                 role: true,
                 isVerified: true,
-                verificationCode: true,
-                verificationExpires: true,
-                createdAt: true,
-                updatedAt: true
+                avatar: true,
+                phone: true,
+                address: true,
+                createdAt: true
             }
         });
 
