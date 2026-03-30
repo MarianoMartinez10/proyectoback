@@ -153,14 +153,15 @@ model Order {
 
 // Normalización de "shippingAddress: Object embebido" → tabla propia (3NF)
 model ShippingAddress {
-  id       String @id @default(uuid())
-  orderId  String @unique
+  id       String  @id @default(uuid())
+  orderId  String  @unique
   fullName String
   street   String
   city     String
+  state    String?
   zip      String
   country  String
-  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order    Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 // Normalización del array "orderItems[]" → tabla intermedia (3NF)
